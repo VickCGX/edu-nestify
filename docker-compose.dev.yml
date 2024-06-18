@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    container_name: edu_nestify_server
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      DATABASE_URL: 'postgresql://postgres:postgres@db:5432/mydatabase'
+    depends_on:
+      - db
+    command: ['yarn', 'run', 'start:dev']
+
+  db:
+    image: postgres:13
+    container_name: postgres_db_dev
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mydatabase
+    ports:
+      - '5432:5432'
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:
