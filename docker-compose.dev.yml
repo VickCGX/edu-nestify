@@ -11,8 +11,8 @@ services:
     volumes:
       - ./server:/usr/src/app
       - /usr/src/app/node_modules
-    environment:
-      DATABASE_URL: 'postgresql://postgres:postgres@db:5432/mydatabase'
+    env_file:
+      - ./server/.env
     depends_on:
       - db
     command: ['yarn', 'run', 'start:dev']

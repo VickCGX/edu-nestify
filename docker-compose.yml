@@ -5,17 +5,21 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-    container_name: nest_server
+    container_name: edu_nestify_server
     ports:
       - '3000:3000'
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
+    env_file:
+      - ./server/.env
     depends_on:
       - db
-    environment:
-      DATABASE_URL: 'postgresql://postgres:postgres@db:5432/mydatabase'
+    command: ['yarn', 'start:prod']
 
   db:
     image: postgres:13
-    container_name: postgres_db
+    container_name: postgres_db_dev
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
