@@ -4,7 +4,7 @@ import { User } from '@prisma/client'
 import * as bcrypt from 'bcryptjs'
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(private prisma: PrismaService) {}
 
   async create(username: string, password: string): Promise<User> {
