@@ -1,7 +1,7 @@
 import { IsOptional, IsInt, Min } from 'class-validator'
 import { Transform } from 'class-transformer'
 import { ApiPropertyOptional } from '@nestjs/swagger'
-import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from '../constants/index'
+import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from '../constants'
 
 export class PaginationDto {
   @ApiPropertyOptional({ description: 'Current page number' })

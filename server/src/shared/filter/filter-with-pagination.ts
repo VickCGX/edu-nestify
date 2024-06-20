@@ -1,6 +1,6 @@
-import { FilterDto, FilterOperator, SortDto } from './index'
-import { PaginationDto, PaginationResponse } from '../pagination/index'
-import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from '../constants/index'
+import { FilterDto, FilterOperator, SortDto } from './'
+import { PaginationDto, PaginationResponse } from '../pagination'
+import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from '../constants'
 import { PrismaService } from '../../../prisma/prisma.service'
 
 

@@ -5,7 +5,7 @@ import {
   SortDto,
   FilterDto,
   findWithFiltersAndPagination
-} from '../index'
+} from '../'
 import { PrismaService } from '../../../prisma/prisma.service'
 
 @Injectable()
