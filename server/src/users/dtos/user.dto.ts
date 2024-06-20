@@ -1,8 +1,12 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { IsString, IsNotEmpty, IsOptional } from 'class-validator'
+import { IsInt, IsString, IsOptional, IsNotEmpty } from 'class-validator'
 import { IsValidPassword } from '../../shared'
 
-export class CreateUserDto {
+export class UserDto {
+  @ApiProperty({ example: 1 })
+  @IsInt()
+  id: number
+
   @ApiProperty({ example: 'john_doe' })
   @IsString()
   @IsNotEmpty()
@@ -16,4 +20,14 @@ export class CreateUserDto {
   @ApiProperty({ example: 'password123' })
   @IsValidPassword()
   password: string
+
+  @ApiProperty({ example: '2023-06-20T12:00:00Z' })
+  createdAt: Date
+
+  @ApiProperty({ example: '2023-06-20T12:00:00Z' })
+  updatedAt: Date
+
+  constructor(partial: Partial<UserDto>) {
+    Object.assign(this, partial)
+  }
 }
