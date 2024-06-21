@@ -14,12 +14,24 @@ datasource db {
 }
 
 model User {
+  id           Int            @id @default(autoincrement())
+  username     String         @unique
+  name         String?
+  password     String
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
+  RefreshToken RefreshToken[]
+
+  @@map("users")
+}
+
+model RefreshToken {
   id        Int      @id @default(autoincrement())
-  username  String   @unique
-  name      String?
-  password  String
+  token     String   @unique
+  userId    Int      @map("user_id")
+  user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@map("users")
+  @@map("refresh_tokens")
 }

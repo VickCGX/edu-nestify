@@ -1,1 +1,3 @@
 export const BCRYPT_SALT_ROUND = 10
+export const JWT_ACCESS_TOPKEN_EXPIRATION = '60m'
+export const JWT_REFRESH_TOKEN_EXPIRATION = '7d'
