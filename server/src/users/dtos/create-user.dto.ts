@@ -16,4 +16,8 @@ export class CreateUserDto {
   @ApiProperty({ example: 'password123' })
   @IsValidPassword()
   password: string
+
+  @ApiPropertyOptional({ example: 1, required: false })
+  @IsOptional()
+  roleId?: number
 }

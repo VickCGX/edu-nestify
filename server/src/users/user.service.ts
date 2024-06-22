@@ -16,7 +16,10 @@ export class UserService {
       data: {
         username: createUserDto.username,
         name: createUserDto.name,
-        password: hashedPassword
+        password: hashedPassword,
+        role: {
+          connect: { id: createUserDto.roleId }
+        }
       }
     })
     return new UserDto(user)
@@ -26,35 +29,39 @@ export class UserService {
     const user = await this.prisma.user.findUnique({
       where: { username }
     })
-    return user ? new UserDto(user) : null
+    return user
   }
 
   async findOneById(id: number): Promise<UserDto | null> {
     const user = await this.prisma.user.findUnique({
       where: { id }
     })
-    return user ? new UserDto(user) : null
+    return user
   }
 
   async findAll(): Promise<UserDto[]> {
     const users = await this.prisma.user.findMany()
-    return users.map(user => new UserDto(user))
+    return users
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<UserDto> {
-    if (updateUserDto.password) {
-      const hashedPassword = await bcrypt.hash(updateUserDto.password, BCRYPT_SALT_ROUND)
-      updateUserDto.password = hashedPassword
+    const { roleId, ...updateData } = updateUserDto
+
+    if (updateData.password) {
+      updateData.password = await bcrypt.hash(updateData.password, BCRYPT_SALT_ROUND)
     }
+
     const user = await this.prisma.user.update({
       where: { id },
       data: {
-        username: updateUserDto.username,
-        name: updateUserDto.name,
-        password: updateUserDto.password
+        ...updateData,
+        ...(roleId && {
+          role: { connect: { id: roleId } }
+        })
       }
     })
-    return new UserDto(user)
+
+    return user
   }
 
   async remove(id: number): Promise<void> {

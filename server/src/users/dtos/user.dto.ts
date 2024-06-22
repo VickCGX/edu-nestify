@@ -21,6 +21,16 @@ export class UserDto {
   @IsOptional()
   name?: string
 
+  @ApiPropertyOptional({ example: 1, required: false })
+  @IsOptional()
+  @IsInt()
+  roleId?: number
+
+  @ApiPropertyOptional({ example: 1, required: false })
+  @IsOptional()
+  @IsInt()
+  departmentId?: number
+
   @ApiProperty({ example: '2023-06-20T12:00:00Z' })
   createdAt: Date
 
