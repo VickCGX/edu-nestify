@@ -1,15 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import {
-  PaginationDto,
-  PaginationResponse,
-  SortDto,
-  FilterDto,
-  findWithFiltersAndPagination
-} from '../'
+import { PaginationDto, PaginationResponse, SortDto, FilterDto, findWithFiltersAndPagination } from 'src/shared'
 import { PrismaService } from '../../../prisma/prisma.service'
+import { IBaseService } from 'src/shared/base/interfaces/base.service.interface'
 
 @Injectable()
-export abstract class BaseService<TModel, TCreateDto, TUpdateDto> {
+export abstract class BaseService<TModel, TCreateDto, TUpdateDto>
+  implements IBaseService<TModel, TCreateDto, TUpdateDto>
+{
   constructor(
     protected prisma: PrismaService,
     private modelTableName: string,
