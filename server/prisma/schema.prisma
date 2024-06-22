@@ -13,14 +13,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Role {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  description String?
+  users       User[]
+}
+
 model User {
   id           Int            @id @default(autoincrement())
   username     String         @unique
+  email        String?        @unique
   name         String?
   password     String
+  roleId       Int  @map("role_id")
+  role         Role      @relation(fields: [roleId], references: [id])
+  RefreshToken RefreshToken[]
   createdAt    DateTime       @default(now()) @map("created_at")
   updatedAt    DateTime       @updatedAt @map("updated_at")
-  RefreshToken RefreshToken[]
 
   @@map("users")
 }
