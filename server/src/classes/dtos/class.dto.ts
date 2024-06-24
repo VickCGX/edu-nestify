@@ -17,7 +17,7 @@ export class ClassDto {
   @IsInt()
   teacherId: number
 
-  @ApiProperty({ type: TeacherDto })
+  @ApiProperty({ type: () => TeacherDto })
   teacher: TeacherDto
 
   @ApiPropertyOptional({ type: [StudentDto] })

@@ -1,7 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { IsInt, IsString, IsEmail, IsDateString, IsOptional, IsNotEmpty } from 'class-validator'
-import { DepartmentDto } from '../../departments/dtos/department.dto'
-import { SubjectDto } from '../../subjects/dtos/subject.dto'
 import { ClassDto } from '../../classes/dtos/class.dto'
 
 export class TeacherDto {
@@ -59,27 +57,27 @@ export class TeacherDto {
   @IsOptional()
   qualifications?: string
 
-  @ApiPropertyOptional({ type: DepartmentDto })
-  @IsOptional()
-  department?: DepartmentDto
-
   @ApiPropertyOptional({ example: 1 })
   @IsInt()
   @IsOptional()
   departmentId?: number
 
-  @ApiPropertyOptional({ type: [SubjectDto] })
-  @IsOptional()
-  subjects?: SubjectDto[]
-
-  @ApiPropertyOptional({ type: [ClassDto] })
-  @IsOptional()
-  classes?: ClassDto[]
-
   @ApiPropertyOptional({ example: 'Additional notes about the teacher' })
   @IsString()
   @IsOptional()
   notes?: string
+
+  @ApiPropertyOptional({ type: () => [ClassDto] })
+  @IsOptional()
+  classes?: ClassDto[]
+
+  @ApiProperty({ example: '2021-09-01T00:00:00.000Z' })
+  @IsDateString()
+  createdAt: Date
+
+  @ApiProperty({ example: '2021-09-01T00:00:00.000Z' })
+  @IsDateString()
+  updatedAt: Date
 
   constructor(partial: Partial<TeacherDto>) {
     Object.assign(this, partial)
