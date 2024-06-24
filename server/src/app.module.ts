@@ -10,6 +10,9 @@ import { DepartmentModule } from './departments/department.module'
 import { RoleModule } from './roles/role.module'
 import { ModuleModule } from './modules/module.module'
 import { SubjectModule } from './subjects/subject.module'
+import { StudentModule } from './students/student.module'
+import { TeacherModule } from './teachers/teacher.module'
+import { ClassModule } from './classes/class.module'
 
 @Module({
   imports: [
@@ -20,7 +23,10 @@ import { SubjectModule } from './subjects/subject.module'
     DepartmentModule,
     RoleModule,
     ModuleModule,
-    SubjectModule
+    SubjectModule,
+    StudentModule,
+    TeacherModule,
+    ClassModule
   ],
   controllers: [AppController],
   providers: [AppService]

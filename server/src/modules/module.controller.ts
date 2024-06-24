@@ -1,12 +1,11 @@
 import { Controller, Post, Body, Put, Param, Get, Query, Delete, HttpStatus } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiTags, ApiResponse } from '@nestjs/swagger'
 import { ModuleService } from './module.service'
 import { CreateModuleDto } from './dtos/create-module.dto'
 import { UpdateModuleDto } from './dtos/update-module.dto'
 import { ModuleDto } from './dtos/module.dto'
 import {
   ApiResponseModel,
-  ApiResponseArrayModel,
   ApiOperationSummary,
   ApiQueryOptions,
   HttpStatusCode,
@@ -40,7 +39,11 @@ export class ModuleController {
   @Get()
   @ApiOperationSummary('Get many modules')
   @ApiQueryOptions()
-  @ApiResponseArrayModel(ModuleDto)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Return many modules.',
+    type: () => PaginationResponse<ModuleDto>
+  })
   async findMany(
     @Query('filter') filterDto?: FilterDto,
     @Query('pagination') paginationDto?: PaginationDto,

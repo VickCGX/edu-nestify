@@ -1,12 +1,11 @@
 import { Controller, Post, Body, Put, Param, Get, Query, Delete, HttpStatus } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiTags, ApiResponse } from '@nestjs/swagger'
 import { RoleService } from './role.service'
 import { CreateRoleDto } from './dtos/create-role.dto'
 import { UpdateRoleDto } from './dtos/update-role.dto'
 import { RoleDto } from './dtos/role.dto'
 import {
   ApiResponseModel,
-  ApiResponseArrayModel,
   ApiOperationSummary,
   ApiQueryOptions,
   HttpStatusCode,
@@ -40,7 +39,11 @@ export class RoleController {
   @Get()
   @ApiOperationSummary('Get many roles')
   @ApiQueryOptions()
-  @ApiResponseArrayModel(RoleDto)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Return many roles.',
+    type: () => PaginationResponse<RoleDto>
+  })
   async findMany(
     @Query('filter') filterDto?: FilterDto,
     @Query('pagination') paginationDto?: PaginationDto,

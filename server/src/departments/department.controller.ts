@@ -1,5 +1,5 @@
 import { Controller, Post, Body, Put, Param, Get, Query, Delete, HttpStatus } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiTags, ApiResponse } from '@nestjs/swagger'
 import { DepartmentService } from './department.service'
 import { CreateDepartmentDto } from './dtos/create-department.dto'
 import { UpdateDepartmentDto } from './dtos/update-department.dto'
@@ -10,7 +10,6 @@ import {
   SortDto,
   PaginationResponse,
   ApiResponseModel,
-  ApiResponseArrayModel,
   ApiOperationSummary,
   ApiQueryOptions,
   HttpStatusCode
@@ -40,7 +39,11 @@ export class DepartmentController {
   @Get()
   @ApiOperationSummary('Get many departments')
   @ApiQueryOptions()
-  @ApiResponseArrayModel(DepartmentDto, HttpStatus.OK)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Return many departments.',
+    type: () => PaginationResponse<DepartmentDto>
+  })
   async findMany(
     @Query('filter') filterDto?: FilterDto,
     @Query('pagination') paginationDto?: PaginationDto,

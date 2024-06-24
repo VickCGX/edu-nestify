@@ -1,12 +1,11 @@
 import { Controller, Post, Body, Put, Param, Get, Query, Delete, HttpStatus } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiTags, ApiResponse } from '@nestjs/swagger'
 import { SubjectService } from './subject.service'
 import { CreateSubjectDto } from './dtos/create-subject.dto'
 import { UpdateSubjectDto } from './dtos/update-subject.dto'
 import { SubjectDto } from './dtos/subject.dto'
 import {
   ApiResponseModel,
-  ApiResponseArrayModel,
   ApiOperationSummary,
   ApiQueryOptions,
   HttpStatusCode,
@@ -40,7 +39,11 @@ export class SubjectController {
   @Get()
   @ApiOperationSummary('Get many subjects')
   @ApiQueryOptions()
-  @ApiResponseArrayModel(SubjectDto)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Return many subjects.',
+    type: () => PaginationResponse<SubjectDto>
+  })
   async findMany(
     @Query('filter') filterDto?: FilterDto,
     @Query('pagination') paginationDto?: PaginationDto,

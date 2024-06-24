@@ -1,12 +1,11 @@
 import { Controller, Post, Body, Put, Param, Get, Query, Delete, HttpStatus } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiTags, ApiResponse } from '@nestjs/swagger'
 import { ClassService } from './class.service'
 import { CreateClassDto } from './dtos/create-class.dto'
 import { UpdateClassDto } from './dtos/update-class.dto'
 import { ClassDto } from './dtos/class.dto'
 import {
   ApiResponseModel,
-  ApiResponseArrayModel,
   ApiOperationSummary,
   ApiQueryOptions,
   HttpStatusCode,
@@ -40,7 +39,11 @@ export class ClassController {
   @Get()
   @ApiOperationSummary('Get many classes')
   @ApiQueryOptions()
-  @ApiResponseArrayModel(ClassDto)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Return many classes.',
+    type: () => PaginationResponse<ClassDto>
+  })
   async findMany(
     @Query('filter') filterDto?: FilterDto,
     @Query('pagination') paginationDto?: PaginationDto,
