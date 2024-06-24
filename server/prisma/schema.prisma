@@ -14,8 +14,8 @@ datasource db {
 }
 
 model Role {
-  id          Int      @id @default(autoincrement())
-  name        String   @unique
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
   description String?
   users       User[]
 }
@@ -26,8 +26,8 @@ model User {
   email        String?        @unique
   name         String?
   password     String
-  roleId       Int  @map("role_id")
-  role         Role      @relation(fields: [roleId], references: [id])
+  roleId       Int            @map("role_id")
+  role         Role           @relation(fields: [roleId], references: [id])
   RefreshToken RefreshToken[]
   createdAt    DateTime       @default(now()) @map("created_at")
   updatedAt    DateTime       @updatedAt @map("updated_at")
@@ -53,4 +53,27 @@ model Department {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("departments")
+}
+
+model Subject {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  description String?
+  modules     Module[] @relation("SubjectModules")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("subjects")
+}
+
+model Module {
+  id        Int      @id @default(autoincrement())
+  name      String
+  content   String?
+  subjectId Int      @map("subject_id")
+  subject   Subject  @relation(fields: [subjectId], references: [id], name: "SubjectModules")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("modules")
 }
