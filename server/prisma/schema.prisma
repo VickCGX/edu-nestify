@@ -56,12 +56,14 @@ model Department {
 }
 
 model Subject {
-  id          Int      @id @default(autoincrement())
-  name        String   @unique
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
   description String?
-  modules     Module[] @relation("SubjectModules")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  modules     Module[]  @relation("SubjectModules")
+  teachers    Teacher[] @relation("TeacherSubjects")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  Class       Class[]
 
   @@map("subjects")
 }
@@ -76,4 +78,62 @@ model Module {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("modules")
+}
+
+model Teacher {
+  id             Int       @id @default(autoincrement())
+  name           String
+  email          String?    @unique
+  dateOfBirth    DateTime?  @map("date_of_birth")
+  hireDate       DateTime?  @default(now()) @map("hire_date")
+  status         String?    @default("active")
+  address        String?
+  phoneNumber    String?   @map("phone_number")
+  profilePicture String?   @map("profile_picture")
+  gender         String?
+  qualifications String?
+  departmentId   Int?      @map("department_id")
+  department     Department? @relation(fields: [departmentId], references: [id])
+  subjects       Subject[] @relation("TeacherSubjects")
+  classes        Class[]
+  notes          String?
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+
+  @@map("teachers")
+}
+
+
+model Student {
+  id             Int       @id @default(autoincrement())
+  name           String
+  email          String?    @unique
+  dateOfBirth    DateTime?  @map("date_of_birth")
+  enrollmentDate DateTime  @default(now()) @map("enrollment_date")
+  status         String    @default("active")
+  address        String?
+  phoneNumber    String?   @map("phone_number")
+  profilePicture String?   @map("profile_picture")
+  gender         String?
+  guardianName   String?   @map("guardian_name")
+  guardianContact String?  @map("guardian_contact")
+  notes          String?
+  classes        Class[]
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+
+  @@map("students")
+}
+
+
+model Class {
+  id        Int       @id @default(autoincrement())
+  name      String
+  teacherId Int       @map("teacher_id")
+  teacher   Teacher   @relation(fields: [teacherId], references: [id])
+  students  Student[]
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  @@map("classes")
 }

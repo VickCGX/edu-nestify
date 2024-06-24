@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { IsInt, IsString, IsNotEmpty, IsOptional } from 'class-validator'
+import { SubjectDto } from '../../subjects/dtos/subject.dto'
 
 export class ModuleDto {
   @ApiProperty({ example: 1 })
@@ -19,6 +20,10 @@ export class ModuleDto {
   @ApiProperty({ example: 1 })
   @IsInt()
   subjectId: number
+
+  @ApiPropertyOptional({ type: SubjectDto })
+  @IsOptional()
+  subject?: SubjectDto
 
   constructor(partial: Partial<ModuleDto>) {
     Object.assign(this, partial)
