@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { IsInt, IsString } from 'class-validator'
-import { QuizQuestionOptionDto } from './quiz-question-option.dto'
-import { QuizCorrectAnswerDto } from './quiz-correct-answer.dto'
+import { QuizQuestionOptionDto } from '../../quiz-question-options/dtos/quiz-question-option.dto'
+import { QuizCorrectAnswerDto } from '../../quiz-correct-answers/dtos/quiz-correct-answer.dto'
 
 export class QuizQuestionDto {
   @ApiProperty({ example: 1 })

@@ -47,10 +47,11 @@ model RefreshToken {
 }
 
 model Department {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  Teacher   Teacher[]
 
   @@map("departments")
 }
@@ -81,50 +82,48 @@ model Module {
 }
 
 model Teacher {
-  id             Int       @id @default(autoincrement())
+  id             Int         @id @default(autoincrement())
   name           String
-  email          String?    @unique
-  dateOfBirth    DateTime?  @map("date_of_birth")
-  hireDate       DateTime?  @default(now()) @map("hire_date")
-  status         String?    @default("active")
+  email          String?     @unique
+  dateOfBirth    DateTime?   @map("date_of_birth")
+  hireDate       DateTime?   @default(now()) @map("hire_date")
+  status         String?     @default("active")
   address        String?
-  phoneNumber    String?   @map("phone_number")
-  profilePicture String?   @map("profile_picture")
+  phoneNumber    String?     @map("phone_number")
+  profilePicture String?     @map("profile_picture")
   gender         String?
   qualifications String?
-  departmentId   Int?      @map("department_id")
+  departmentId   Int?        @map("department_id")
   department     Department? @relation(fields: [departmentId], references: [id])
-  subjects       Subject[] @relation("TeacherSubjects")
+  subjects       Subject[]   @relation("TeacherSubjects")
   classes        Class[]
   notes          String?
-  createdAt      DateTime  @default(now()) @map("created_at")
-  updatedAt      DateTime  @updatedAt @map("updated_at")
+  createdAt      DateTime    @default(now()) @map("created_at")
+  updatedAt      DateTime    @updatedAt @map("updated_at")
 
   @@map("teachers")
 }
 
-
 model Student {
-  id             Int       @id @default(autoincrement())
-  name           String
-  email          String?    @unique
-  dateOfBirth    DateTime?  @map("date_of_birth")
-  enrollmentDate DateTime  @default(now()) @map("enrollment_date")
-  status         String    @default("active")
-  address        String?
-  phoneNumber    String?   @map("phone_number")
-  profilePicture String?   @map("profile_picture")
-  gender         String?
-  guardianName   String?   @map("guardian_name")
-  guardianContact String?  @map("guardian_contact")
-  notes          String?
-  classes        Class[]
-  createdAt      DateTime  @default(now()) @map("created_at")
-  updatedAt      DateTime  @updatedAt @map("updated_at")
+  id              Int       @id @default(autoincrement())
+  name            String
+  email           String?   @unique
+  dateOfBirth     DateTime? @map("date_of_birth")
+  enrollmentDate  DateTime  @default(now()) @map("enrollment_date")
+  status          String    @default("active")
+  address         String?
+  phoneNumber     String?   @map("phone_number")
+  profilePicture  String?   @map("profile_picture")
+  gender          String?
+  guardianName    String?   @map("guardian_name")
+  guardianContact String?   @map("guardian_contact")
+  notes           String?
+  classes         Class[]
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
 
   @@map("students")
 }
-
 
 model Class {
   id        Int       @id @default(autoincrement())
@@ -134,6 +133,62 @@ model Class {
   students  Student[]
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
+  Subject   Subject?  @relation(fields: [subjectId], references: [id])
+  subjectId Int?
+  Quiz      Quiz[]
 
   @@map("classes")
+}
+
+model Quiz {
+  id          Int            @id @default(autoincrement())
+  title       String
+  description String?
+  duration    Int            @map("duration") // Duration in minutes
+  totalMarks  Int            @map("total_marks")
+  startTime   DateTime       @map("start_time")
+  endTime     DateTime       @map("end_time")
+  status      String         @default("scheduled")
+  classId     Int            @map("class_id")
+  class       Class          @relation(fields: [classId], references: [id])
+  questions   QuizQuestion[]
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+
+  @@map("quizzes")
+}
+
+model QuizQuestion {
+  id             Int                  @id @default(autoincrement())
+  question       String
+  quizId         Int                  @map("quiz_id")
+  quiz           Quiz                 @relation(fields: [quizId], references: [id])
+  options        QuizQuestionOption[]
+  correctAnswers QuizCorrectAnswer[]
+  QuestionType   QuestionType?        @relation(fields: [questionTypeId], references: [id])
+  questionTypeId Int
+}
+
+model QuizQuestionOption {
+  id                Int                 @id @default(autoincrement())
+  text              String
+  questionId        Int                 @map("question_id")
+  quizQuestion      QuizQuestion        @relation(fields: [questionId], references: [id])
+  QuizCorrectAnswer QuizCorrectAnswer[]
+}
+
+model QuizCorrectAnswer {
+  id                 Int                @id @default(autoincrement())
+  optionId           Int                @map("option_id")
+  questionId         Int                @map("question_id")
+  quizQuestion       QuizQuestion       @relation(fields: [questionId], references: [id])
+  quizQuestionOption QuizQuestionOption @relation(fields: [optionId], references: [id])
+}
+
+model QuestionType {
+  id        Int            @id @default(autoincrement())
+  name      String         @unique
+  questions QuizQuestion[]
+
+  @@map("question_types")
 }
