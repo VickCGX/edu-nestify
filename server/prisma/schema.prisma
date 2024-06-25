@@ -123,6 +123,7 @@ model Student {
   updatedAt       DateTime     @updatedAt @map("updated_at")
   Score           Score[]
   Submission      Submission[]
+  Attendance      Attendance[]
 
   @@map("students")
 }
@@ -139,6 +140,7 @@ model Class {
   subjectId  Int?
   Quiz       Quiz[]
   Assignment Assignment[]
+  Attendance Attendance[]
 
   @@map("classes")
 }
@@ -240,4 +242,30 @@ model Submission {
   updatedAt     DateTime   @updatedAt @map("updated_at")
 
   @@map("submissions")
+}
+
+model Announcement {
+  id         Int      @id @default(autoincrement())
+  title      String
+  content    String
+  date       DateTime @default(now())
+  classId    Int?     @map("class_id")
+  class      Class?   @relation(fields: [classId], references: [id])
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("announcements")
+}
+
+
+model Attendance {
+  id        Int      @id @default(autoincrement())
+  date      DateTime
+  status    String   @default("present")
+  studentId Int      @map("student_id")
+  classId   Int      @map("class_id")
+  student   Student  @relation(fields: [studentId], references: [id])
+  class     Class    @relation(fields: [classId], references: [id])
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 }
