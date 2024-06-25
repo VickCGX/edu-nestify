@@ -19,6 +19,7 @@ import { QuizQuestionModule } from './quizzes/quiz-question/quiz-question.module
 import { ScoreModule } from './scores/score.module'
 import { AssignmentModule } from './assignments/assignment.module'
 import { SubmissionModule } from './submissions/submission.module'
+import { AnnouncementModule } from './announcements/announcement.module'
 
 @Module({
   imports: [
@@ -38,7 +39,8 @@ import { SubmissionModule } from './submissions/submission.module'
     QuizQuestionModule,
     ScoreModule,
     AssignmentModule,
-    SubmissionModule
+    SubmissionModule,
+    AnnouncementModule
   ],
   controllers: [AppController],
   providers: [AppService]
