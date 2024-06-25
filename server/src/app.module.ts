@@ -23,6 +23,7 @@ import { AnnouncementModule } from './announcements/announcement.module'
 import { AttendanceModule } from './attendances/attendance.module'
 import { TimetableModule } from './timetable/timetable.module'
 import { NotificationModule } from './notifications/notification.module'
+import { FeedbackModule } from './feedbacks/feedback.module'
 
 @Module({
   imports: [
@@ -46,7 +47,8 @@ import { NotificationModule } from './notifications/notification.module'
     AnnouncementModule,
     AttendanceModule,
     TimetableModule,
-    NotificationModule
+    NotificationModule,
+    FeedbackModule
   ],
   controllers: [AppController],
   providers: [AppService]

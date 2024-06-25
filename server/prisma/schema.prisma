@@ -31,6 +31,7 @@ model User {
   RefreshToken RefreshToken[]
   createdAt    DateTime       @default(now()) @map("created_at")
   updatedAt    DateTime       @updatedAt @map("updated_at")
+  Notification Notification[]
 
   @@map("users")
 }
@@ -57,14 +58,15 @@ model Department {
 }
 
 model Subject {
-  id          Int       @id @default(autoincrement())
-  name        String    @unique
+  id          Int         @id @default(autoincrement())
+  name        String      @unique
   description String?
-  modules     Module[]  @relation("SubjectModules")
-  teachers    Teacher[] @relation("TeacherSubjects")
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @updatedAt @map("updated_at")
+  modules     Module[]    @relation("SubjectModules")
+  teachers    Teacher[]   @relation("TeacherSubjects")
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
   Class       Class[]
+  Timetable   Timetable[]
 
   @@map("subjects")
 }
@@ -100,6 +102,7 @@ model Teacher {
   notes          String?
   createdAt      DateTime    @default(now()) @map("created_at")
   updatedAt      DateTime    @updatedAt @map("updated_at")
+  Feedback       Feedback[]
 
   @@map("teachers")
 }
@@ -124,23 +127,26 @@ model Student {
   Score           Score[]
   Submission      Submission[]
   Attendance      Attendance[]
+  Feedback        Feedback[]
 
   @@map("students")
 }
 
 model Class {
-  id         Int          @id @default(autoincrement())
-  name       String
-  teacherId  Int          @map("teacher_id")
-  teacher    Teacher      @relation(fields: [teacherId], references: [id])
-  students   Student[]
-  createdAt  DateTime     @default(now()) @map("created_at")
-  updatedAt  DateTime     @updatedAt @map("updated_at")
-  Subject    Subject?     @relation(fields: [subjectId], references: [id])
-  subjectId  Int?
-  Quiz       Quiz[]
-  Assignment Assignment[]
-  Attendance Attendance[]
+  id           Int            @id @default(autoincrement())
+  name         String
+  teacherId    Int            @map("teacher_id")
+  teacher      Teacher        @relation(fields: [teacherId], references: [id])
+  students     Student[]
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
+  Subject      Subject?       @relation(fields: [subjectId], references: [id])
+  subjectId    Int?
+  Quiz         Quiz[]
+  Assignment   Assignment[]
+  Attendance   Attendance[]
+  Announcement Announcement[]
+  Timetable    Timetable[]
 
   @@map("classes")
 }
@@ -160,6 +166,7 @@ model Quiz {
   createdAt   DateTime       @default(now()) @map("created_at")
   updatedAt   DateTime       @updatedAt @map("updated_at")
   Score       Score[]
+  Feedback    Feedback[]
 
   @@map("quizzes")
 }
@@ -223,6 +230,7 @@ model Assignment {
   submissions Submission[]
   createdAt   DateTime     @default(now()) @map("created_at")
   updatedAt   DateTime     @updatedAt @map("updated_at")
+  Feedback    Feedback[]
 
   @@map("assignments")
 }
@@ -245,18 +253,17 @@ model Submission {
 }
 
 model Announcement {
-  id         Int      @id @default(autoincrement())
-  title      String
-  content    String
-  date       DateTime @default(now())
-  classId    Int?     @map("class_id")
-  class      Class?   @relation(fields: [classId], references: [id])
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  date      DateTime @default(now())
+  classId   Int?     @map("class_id")
+  class     Class?   @relation(fields: [classId], references: [id])
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("announcements")
 }
-
 
 model Attendance {
   id        Int      @id @default(autoincrement())
@@ -268,4 +275,48 @@ model Attendance {
   class     Class    @relation(fields: [classId], references: [id])
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model Timetable {
+  id        Int      @id @default(autoincrement())
+  classId   Int      @map("class_id")
+  class     Class    @relation(fields: [classId], references: [id])
+  day       String
+  startTime DateTime @map("start_time")
+  endTime   DateTime @map("end_time")
+  subjectId Int      @map("subject_id")
+  subject   Subject  @relation(fields: [subjectId], references: [id])
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("timetables")
+}
+
+model Notification {
+  id          Int      @id @default(autoincrement())
+  content     String
+  recipientId Int      @map("recipient_id")
+  recipient   User     @relation(fields: [recipientId], references: [id])
+  status      String   @default("unread")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("notifications")
+}
+
+model Feedback {
+  id           Int         @id @default(autoincrement())
+  content      String
+  assignmentId Int?        @map("assignment_id")
+  assignment   Assignment? @relation(fields: [assignmentId], references: [id])
+  quizId       Int?        @map("quiz_id")
+  quiz         Quiz?       @relation(fields: [quizId], references: [id])
+  studentId    Int         @map("student_id")
+  student      Student     @relation(fields: [studentId], references: [id])
+  teacherId    Int         @map("teacher_id")
+  teacher      Teacher     @relation(fields: [teacherId], references: [id])
+  createdAt    DateTime    @default(now()) @map("created_at")
+  updatedAt    DateTime    @updatedAt @map("updated_at")
+
+  @@map("feedbacks")
 }
