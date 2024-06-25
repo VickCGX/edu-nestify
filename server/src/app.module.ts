@@ -17,6 +17,8 @@ import { QuestionTypeModule } from './quizzes/question-types/question-type.modul
 import { QuizQuestionOptionModule } from './quizzes/quiz-question-options/quiz-question-option.module'
 import { QuizQuestionModule } from './quizzes/quiz-question/quiz-question.module'
 import { ScoreModule } from './scores/score.module'
+import { AssignmentModule } from './assignments/assignment.module'
+import { SubmissionModule } from './submissions/submission.module'
 
 @Module({
   imports: [
@@ -34,7 +36,9 @@ import { ScoreModule } from './scores/score.module'
     QuestionTypeModule,
     QuizQuestionOptionModule,
     QuizQuestionModule,
-    ScoreModule
+    ScoreModule,
+    AssignmentModule,
+    SubmissionModule
   ],
   controllers: [AppController],
   providers: [AppService]

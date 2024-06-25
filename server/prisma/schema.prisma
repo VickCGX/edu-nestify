@@ -105,38 +105,40 @@ model Teacher {
 }
 
 model Student {
-  id              Int       @id @default(autoincrement())
+  id              Int          @id @default(autoincrement())
   name            String
-  email           String?   @unique
-  dateOfBirth     DateTime? @map("date_of_birth")
-  enrollmentDate  DateTime  @default(now()) @map("enrollment_date")
-  status          String    @default("active")
+  email           String?      @unique
+  dateOfBirth     DateTime?    @map("date_of_birth")
+  enrollmentDate  DateTime     @default(now()) @map("enrollment_date")
+  status          String       @default("active")
   address         String?
-  phoneNumber     String?   @map("phone_number")
-  profilePicture  String?   @map("profile_picture")
+  phoneNumber     String?      @map("phone_number")
+  profilePicture  String?      @map("profile_picture")
   gender          String?
-  guardianName    String?   @map("guardian_name")
-  guardianContact String?   @map("guardian_contact")
+  guardianName    String?      @map("guardian_name")
+  guardianContact String?      @map("guardian_contact")
   notes           String?
   classes         Class[]
-  createdAt       DateTime  @default(now()) @map("created_at")
-  updatedAt       DateTime  @updatedAt @map("updated_at")
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
   Score           Score[]
+  Submission      Submission[]
 
   @@map("students")
 }
 
 model Class {
-  id        Int       @id @default(autoincrement())
-  name      String
-  teacherId Int       @map("teacher_id")
-  teacher   Teacher   @relation(fields: [teacherId], references: [id])
-  students  Student[]
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
-  Subject   Subject?  @relation(fields: [subjectId], references: [id])
-  subjectId Int?
-  Quiz      Quiz[]
+  id         Int          @id @default(autoincrement())
+  name       String
+  teacherId  Int          @map("teacher_id")
+  teacher    Teacher      @relation(fields: [teacherId], references: [id])
+  students   Student[]
+  createdAt  DateTime     @default(now()) @map("created_at")
+  updatedAt  DateTime     @updatedAt @map("updated_at")
+  Subject    Subject?     @relation(fields: [subjectId], references: [id])
+  subjectId  Int?
+  Quiz       Quiz[]
+  Assignment Assignment[]
 
   @@map("classes")
 }
@@ -206,4 +208,36 @@ model Score {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("scores")
+}
+
+model Assignment {
+  id          Int          @id @default(autoincrement())
+  title       String
+  description String?
+  dueDate     DateTime     @map("due_date")
+  status      String       @default("pending")
+  classId     Int          @map("class_id")
+  class       Class        @relation(fields: [classId], references: [id])
+  submissions Submission[]
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+
+  @@map("assignments")
+}
+
+model Submission {
+  id            Int        @id @default(autoincrement())
+  studentId     Int        @map("student_id")
+  assignmentId  Int        @map("assignment_id")
+  student       Student    @relation(fields: [studentId], references: [id])
+  assignment    Assignment @relation(fields: [assignmentId], references: [id])
+  submissionUrl String?    @map("submission_url")
+  submittedAt   DateTime   @map("submitted_at")
+  status        String     @default("submitted")
+  grade         Int?
+  feedback      String?
+  createdAt     DateTime   @default(now()) @map("created_at")
+  updatedAt     DateTime   @updatedAt @map("updated_at")
+
+  @@map("submissions")
 }
