@@ -22,6 +22,7 @@ import { SubmissionModule } from './submissions/submission.module'
 import { AnnouncementModule } from './announcements/announcement.module'
 import { AttendanceModule } from './attendances/attendance.module'
 import { TimetableModule } from './timetable/timetable.module'
+import { NotificationModule } from './notifications/notification.module'
 
 @Module({
   imports: [
@@ -44,7 +45,8 @@ import { TimetableModule } from './timetable/timetable.module'
     SubmissionModule,
     AnnouncementModule,
     AttendanceModule,
-    TimetableModule
+    TimetableModule,
+    NotificationModule
   ],
   controllers: [AppController],
   providers: [AppService]
