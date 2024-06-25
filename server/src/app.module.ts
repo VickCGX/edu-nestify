@@ -13,6 +13,7 @@ import { SubjectModule } from './subjects/subject.module'
 import { StudentModule } from './students/student.module'
 import { TeacherModule } from './teachers/teacher.module'
 import { ClassModule } from './classes/class.module'
+import { QuestionTypeModule } from './quizzes/question-types/question-type.module'
 
 @Module({
   imports: [
@@ -26,7 +27,8 @@ import { ClassModule } from './classes/class.module'
     SubjectModule,
     StudentModule,
     TeacherModule,
-    ClassModule
+    ClassModule,
+    QuestionTypeModule
   ],
   controllers: [AppController],
   providers: [AppService]
