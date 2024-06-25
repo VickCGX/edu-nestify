@@ -20,6 +20,8 @@ import { ScoreModule } from './scores/score.module'
 import { AssignmentModule } from './assignments/assignment.module'
 import { SubmissionModule } from './submissions/submission.module'
 import { AnnouncementModule } from './announcements/announcement.module'
+import { AttendanceModule } from './attendances/attendance.module'
+import { TimetableModule } from './timetable/timetable.module'
 
 @Module({
   imports: [
@@ -40,7 +42,9 @@ import { AnnouncementModule } from './announcements/announcement.module'
     ScoreModule,
     AssignmentModule,
     SubmissionModule,
-    AnnouncementModule
+    AnnouncementModule,
+    AttendanceModule,
+    TimetableModule
   ],
   controllers: [AppController],
   providers: [AppService]
