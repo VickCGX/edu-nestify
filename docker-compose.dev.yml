@@ -1,18 +1,18 @@
 version: '3.9'
 
 services:
-  server:
+  backend:
     build:
-      context: ./server
+      context: ./backend
       dockerfile: Dockerfile.dev
-    container_name: edu_nestify_server
+    container_name: edu_nestify_backend
     ports:
       - '3000:3000'
     volumes:
-      - ./server:/usr/src/app
+      - ./backend:/usr/src/app
       - /usr/src/app/node_modules
     env_file:
-      - ./server/.env
+      - ./backend/.env
     depends_on:
       - db
     command: ['yarn', 'run', 'start:dev']

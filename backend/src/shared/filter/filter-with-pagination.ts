@@ -1,8 +1,7 @@
-import { FilterDto, FilterOperator, SortDto } from './'
+import { FilterDto, FilterOperator, SortDto } from '.'
 import { PaginationDto, PaginationResponse } from '../pagination'
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from '../constants'
 import { PrismaService } from '../../../prisma/prisma.service'
-
 
 export async function findWithFiltersAndPagination<T>(
   prisma: PrismaService,
