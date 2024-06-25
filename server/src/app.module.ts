@@ -16,6 +16,7 @@ import { ClassModule } from './classes/class.module'
 import { QuestionTypeModule } from './quizzes/question-types/question-type.module'
 import { QuizQuestionOptionModule } from './quizzes/quiz-question-options/quiz-question-option.module'
 import { QuizQuestionModule } from './quizzes/quiz-question/quiz-question.module'
+import { ScoreModule } from './scores/score.module'
 
 @Module({
   imports: [
@@ -32,7 +33,8 @@ import { QuizQuestionModule } from './quizzes/quiz-question/quiz-question.module
     ClassModule,
     QuestionTypeModule,
     QuizQuestionOptionModule,
-    QuizQuestionModule
+    QuizQuestionModule,
+    ScoreModule
   ],
   controllers: [AppController],
   providers: [AppService]

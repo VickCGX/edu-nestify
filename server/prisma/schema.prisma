@@ -121,6 +121,7 @@ model Student {
   classes         Class[]
   createdAt       DateTime  @default(now()) @map("created_at")
   updatedAt       DateTime  @updatedAt @map("updated_at")
+  Score           Score[]
 
   @@map("students")
 }
@@ -154,6 +155,7 @@ model Quiz {
   questions   QuizQuestion[]
   createdAt   DateTime       @default(now()) @map("created_at")
   updatedAt   DateTime       @updatedAt @map("updated_at")
+  Score       Score[]
 
   @@map("quizzes")
 }
@@ -191,4 +193,17 @@ model QuestionType {
   questions QuizQuestion[]
 
   @@map("question_types")
+}
+
+model Score {
+  id        Int      @id @default(autoincrement())
+  marks     Int
+  studentId Int      @map("student_id")
+  quizId    Int      @map("quiz_id")
+  student   Student  @relation(fields: [studentId], references: [id])
+  quiz      Quiz     @relation(fields: [quizId], references: [id])
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("scores")
 }
