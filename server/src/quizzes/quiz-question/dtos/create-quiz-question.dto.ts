@@ -7,15 +7,15 @@ export class CreateQuizQuestionDto {
   @IsNotEmpty()
   question: string
 
-  @ApiProperty({ example: 'single_choice' })
-  @IsString()
-  @IsNotEmpty()
-  type: string // single_choice, multiple_choice, true_false, short_answer
-
   @ApiProperty({ example: 1 })
   @IsInt()
   @IsNotEmpty()
   quizId: number
+
+  @ApiProperty({ example: 1 })
+  @IsInt()
+  @IsNotEmpty()
+  questionTypeId: number
 
   @ApiPropertyOptional({ example: ['Paris', 'London', 'Berlin', 'Madrid'] })
   @IsOptional()

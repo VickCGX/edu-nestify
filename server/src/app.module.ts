@@ -14,6 +14,8 @@ import { StudentModule } from './students/student.module'
 import { TeacherModule } from './teachers/teacher.module'
 import { ClassModule } from './classes/class.module'
 import { QuestionTypeModule } from './quizzes/question-types/question-type.module'
+import { QuizQuestionOptionModule } from './quizzes/quiz-question-options/quiz-question-option.module'
+import { QuizQuestionModule } from './quizzes/quiz-question/quiz-question.module'
 
 @Module({
   imports: [
@@ -28,7 +30,9 @@ import { QuestionTypeModule } from './quizzes/question-types/question-type.modul
     StudentModule,
     TeacherModule,
     ClassModule,
-    QuestionTypeModule
+    QuestionTypeModule,
+    QuizQuestionOptionModule,
+    QuizQuestionModule
   ],
   controllers: [AppController],
   providers: [AppService]
