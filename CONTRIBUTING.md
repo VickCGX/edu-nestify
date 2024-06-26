@@ -47,12 +47,6 @@ Thank you for considering contributing to Edu-Nestify! Your contributions are hi
    yarn start:dev
    ```
 
-## Project Structure
-
-- `src/` - The main source code directory.
-- `prisma/` - Contains Prisma schema and migration files.
-- `tests/` - Contains test files.
-
 ## How to Contribute
 
 ### Reporting Bugs
