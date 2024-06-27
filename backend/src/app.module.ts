@@ -24,6 +24,8 @@ import { AttendanceModule } from './attendances/attendance.module'
 import { TimetableModule } from './timetable/timetable.module'
 import { NotificationModule } from './notifications/notification.module'
 import { FeedbackModule } from './feedbacks/feedback.module'
+import { MaterialTypeModule } from './materials/material-types/material-type.module'
+import { MaterialModule } from './materials/material/material.module'
 
 @Module({
   imports: [
@@ -48,7 +50,9 @@ import { FeedbackModule } from './feedbacks/feedback.module'
     AttendanceModule,
     TimetableModule,
     NotificationModule,
-    FeedbackModule
+    FeedbackModule,
+    MaterialTypeModule,
+    MaterialModule
   ],
   controllers: [AppController],
   providers: [AppService]
