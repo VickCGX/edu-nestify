@@ -32,20 +32,30 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
+        working-directory: ./backend
         run: yarn install
 
+      - name: Ensure Prisma schema file exists
+        run: |
+          if [ ! -f backend/prisma/schema.prisma ]; then
+            echo "Prisma schema file not found!"
+            exit 1
+          fi
+
       - name: Set up Prisma
-        run: npx prisma generate
+        run: npx prisma generate --schema=backend/prisma/schema.prisma
 
       - name: Run migrations
         env:
           DATABASE_URL: postgres://postgres:password@localhost:5432/test_db
-        run: npx prisma migrate dev --name init
+        run: npx prisma migrate dev --name init --schema=backend/prisma/schema.prisma
 
       - name: Run tests
+        working-directory: ./backend
         run: yarn test
 
       - name: Build project
+        working-directory: ./backend
         run: yarn build
 
       - name: Deploy to production
