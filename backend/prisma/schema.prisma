@@ -320,3 +320,30 @@ model Feedback {
 
   @@map("feedbacks")
 }
+
+model Material {
+  id          Int            @id @default(autoincrement())
+  title       String
+  content     String?
+  path        String
+  materialTypeId Int         @map("material_type_id")
+  materialType MaterialType  @relation(fields: [materialTypeId], references: [id])
+  subjectId   Int?           @map("subject_id")
+  subject     Subject?       @relation(fields: [subjectId], references: [id])
+  moduleId    Int?           @map("module_id")
+  module      Module?        @relation(fields: [moduleId], references: [id])
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+
+  @@map("materials")
+}
+
+model MaterialType {
+  id          Int            @id @default(autoincrement())
+  name        String         @unique
+  description String?
+  materials   Material[]
+
+  @@map("material_types")
+}
+
