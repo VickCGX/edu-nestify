@@ -63,6 +63,7 @@ model Subject {
   description String?
   modules     Module[]    @relation("SubjectModules")
   teachers    Teacher[]   @relation("TeacherSubjects")
+  materials   Material[]  @relation("MaterialSubject")
   createdAt   DateTime    @default(now()) @map("created_at")
   updatedAt   DateTime    @updatedAt @map("updated_at")
   Class       Class[]
@@ -72,13 +73,14 @@ model Subject {
 }
 
 model Module {
-  id        Int      @id @default(autoincrement())
+  id        Int        @id @default(autoincrement())
   name      String
   content   String?
-  subjectId Int      @map("subject_id")
-  subject   Subject  @relation(fields: [subjectId], references: [id], name: "SubjectModules")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  subjectId Int        @map("subject_id")
+  subject   Subject    @relation(fields: [subjectId], references: [id], name: "SubjectModules")
+  materials Material[] @relation("MaterialModule")
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
 
   @@map("modules")
 }
@@ -322,28 +324,27 @@ model Feedback {
 }
 
 model Material {
-  id          Int            @id @default(autoincrement())
-  title       String
-  content     String?
-  path        String
-  materialTypeId Int         @map("material_type_id")
-  materialType MaterialType  @relation(fields: [materialTypeId], references: [id])
-  subjectId   Int?           @map("subject_id")
-  subject     Subject?       @relation(fields: [subjectId], references: [id])
-  moduleId    Int?           @map("module_id")
-  module      Module?        @relation(fields: [moduleId], references: [id])
-  createdAt   DateTime       @default(now()) @map("created_at")
-  updatedAt   DateTime       @updatedAt @map("updated_at")
+  id             Int          @id @default(autoincrement())
+  title          String
+  content        String?
+  path           String
+  materialTypeId Int          @map("material_type_id")
+  materialType   MaterialType @relation(fields: [materialTypeId], references: [id])
+  subjectId      Int?         @map("subject_id")
+  subject        Subject?     @relation(fields: [subjectId], references: [id], name: "MaterialSubject")
+  moduleId       Int?         @map("module_id")
+  module         Module?      @relation(fields: [moduleId], references: [id], name: "MaterialModule")
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
 
   @@map("materials")
 }
 
 model MaterialType {
-  id          Int            @id @default(autoincrement())
-  name        String         @unique
+  id          Int        @id @default(autoincrement())
+  name        String     @unique
   description String?
   materials   Material[]
 
   @@map("material_types")
 }
-
